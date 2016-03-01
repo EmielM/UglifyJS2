@@ -373,7 +373,10 @@ async.eachLimit(files, 1, function (file, cb) {
         TOPLEVEL = UglifyJS.AST_Node.from_mozilla_ast(TOPLEVEL);
     });
 
-    if (ARGS.wrap != null) {
+    if (ARGS.wrap && ARGS.wrap.substr(0,7) == "define:") {
+        TOPLEVEL = TOPLEVEL.wrap_define(ARGS.wrap.substr(7));
+
+	} else if (ARGS.wrap != null) {
         TOPLEVEL = TOPLEVEL.wrap_commonjs(ARGS.wrap, ARGS.export_all);
     }
 
